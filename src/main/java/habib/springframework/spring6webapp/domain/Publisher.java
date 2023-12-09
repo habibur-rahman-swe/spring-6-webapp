@@ -1,9 +1,14 @@
 package habib.springframework.spring6webapp.domain;
 
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Publisher {
@@ -17,6 +22,18 @@ public class Publisher {
 	private String city;
 	private String state;
 	private String zipCode;
+	
+	@OneToMany(mappedBy = "publisher")
+	private Set<Book> books = new HashSet<>();
+
+	
+	public Set<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(Set<Book> books) {
+		this.books = books;
+	}
 
 	public Long getId() {
 		return id;
@@ -66,4 +83,32 @@ public class Publisher {
 		this.zipCode = zipCode;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(address, books, city, id, publisherName, state, zipCode);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Publisher other = (Publisher) obj;
+		return Objects.equals(address, other.address) && Objects.equals(books, other.books)
+				&& Objects.equals(city, other.city) && Objects.equals(id, other.id)
+				&& Objects.equals(publisherName, other.publisherName) && Objects.equals(state, other.state)
+				&& Objects.equals(zipCode, other.zipCode);
+	}
+
+	@Override
+	public String toString() {
+		return "Publisher [id=" + id + ", publisherName=" + publisherName + ", address=" + address + ", city=" + city
+				+ ", state=" + state + ", zipCode=" + zipCode + ", books=" + books + "]";
+	}
+
+	
+	
 }
