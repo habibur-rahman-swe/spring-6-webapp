@@ -26,56 +26,50 @@ public class BootstrapData implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Author author1 = new Author();
-		author1.setFirstName("A1");
-		author1.setLastName("B1");
+		Author eric = new Author();
+		eric.setFirstName("Eric");
+		eric.setLastName("Evans");
 		
-		Book book1 = new Book();
-		book1.setTitle("T1");
-		book1.setIsbn("11");
+		Book ddd = new Book();
+		ddd.setTitle("Domain Driven Design");
+		ddd.setIsbn("1234456");
 		
-		Author authorSaved1 = authorRepository.save(author1);
-		Book bookSaved1 = bookRepository.save(book1);
+		Author ericSaved = authorRepository.save(eric);
+		Book dddSaved = bookRepository.save(ddd);
 		
+		Author rod = new  Author();
+		rod.setFirstName("Rod");
+		rod.setLastName("Johnson");
 		
+		Book noEJB = new Book();
+		noEJB.setTitle("J2EE Development withous EJB");
+		noEJB.setIsbn("54787885");
 		
-		Author author2 = new Author();
-		author2.setFirstName("A2");
-		author1.setLastName("B2");
+		Author rodSaved = authorRepository.save(rod);
+		Book noEJBSaved = bookRepository.save(noEJB);
 		
-		Book book2 = new Book();
-		book1.setTitle("T2");
-		book1.setIsbn("12");
-		
-		Author authorSaved2 = authorRepository.save(author2);
-		Book bookSaved2 = bookRepository.save(book2);
-		
+		ericSaved.getBooks().add(dddSaved);
+		rodSaved.getBooks().add(noEJBSaved);
+		dddSaved.getAuthors().add(ericSaved);
+		noEJBSaved.getAuthors().add(rodSaved);
 		
 		Publisher publisher = new Publisher();
 		publisher.setPublisherName("My Publisher");
 		publisher.setAddress("123 Main");
 		Publisher savedPublisher = publisherRepository.save(publisher);
 		
-		book1.setPublisher(savedPublisher);
-		book2.setPublisher(savedPublisher);
+		dddSaved.setPublisher(savedPublisher);
+		noEJBSaved.setPublisher(savedPublisher);
 		
-		bookRepository.save(book1);
-		bookRepository.save(book2);
+		authorRepository.save(ericSaved);
+		authorRepository.save(rodSaved);
+		bookRepository.save(dddSaved);
+		bookRepository.save(noEJBSaved);
 		
-		authorSaved1.getBooks().add(bookSaved1);
-		authorSaved2.getBooks().add(bookSaved2);
-		
-		
-		authorRepository.save(authorSaved1);
-		authorRepository.save(authorSaved2);
-		
-		System.out.println("In BootStrap");
+		System.out.println("In Bootstrap");
 		System.out.println("Author Count: " + authorRepository.count());
 		System.out.println("Book Count: " + bookRepository.count());
 		System.out.println("Publisher Count: " + publisherRepository.count());
-		System.out.println(authorSaved1);
-		System.out.println(bookSaved1);
-		
 	}
 
 	
